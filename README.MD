@@ -1,1 +1,1 @@
-## Pytorch Based Deep Learning Proejct Template
+## Pytorch Based Deep Learning Project Template
