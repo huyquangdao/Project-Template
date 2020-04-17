@@ -3,7 +3,7 @@ import glob
 from torchvision.transforms import Compose, ToPILImage, ToTensor, RandomCrop, Normalize, Resize, RandomHorizontalFlip
 import cv2
 
-from ..base.dataset import BaseDataset
+from base.dataset import BaseDataset
 
 label2class = {
     'dog':0,
