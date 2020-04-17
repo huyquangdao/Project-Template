@@ -55,7 +55,7 @@ if __name__ == "__main__":
     optimizer = optim.Adam(model.parameters(), lr = args.lr)
     criterion = nn.CrossEntropyLoss()
     metric = ClassificationMetric(n_classes=args.n_classes)
-    train_dataset = CatDogDataset(file_path=args.file_dir,transform=train_transform)
+    train_dataset = CatDogDataset(file_path=args.train_dir,transform=train_transform)
 
     if args.gpu:
         DEVICE = torch.device('cuda:0')
