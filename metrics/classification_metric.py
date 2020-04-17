@@ -1,5 +1,5 @@
 from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score
-from ..base.metric import BaseMetric
+from base.metric import BaseMetric
 import torch
 
 class ClassificationMetric(BaseMetric):

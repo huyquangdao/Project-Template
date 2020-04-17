@@ -1,5 +1,5 @@
 import torch
-from ..base.inference import BaseInference
+from base.inference import BaseInference
 
 
 class CatDogInference(BaseInference):

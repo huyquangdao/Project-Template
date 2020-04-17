@@ -1,4 +1,6 @@
-from ..base.trainer import BaseTrainer
+import os
+
+from base.trainer import BaseTrainer
 
 
 class DogCatTrainer(BaseTrainer):
