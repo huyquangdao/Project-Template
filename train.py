@@ -28,7 +28,7 @@ def parse_args():
     parser.add_argument('--val_batch_size', help='Your validation batch size', default=64)
     parser.add_argument('--grad_clip',help='gradient clipping theshold',default=5)
     parser.add_argument('--grad_accum_step', help='gradient accumalation step', default=1)
-    parser.add_argument('--n_classses',help='Number of classes', default=2)
+    parser.add_argument('--n_classes',help='Number of classes', default=2)
     parser.add_argument('--pretrained',help='Number of classes', default=1, type=bool)
     parser.add_argument('--gpu',help='Number of classes', default=1, type= bool)
 
