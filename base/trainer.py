@@ -48,6 +48,7 @@ class BaseTrainer:
         best_loss = 1000
 
         for i in range(epochs):
+
             self.model.train()
             train_epoch_loss = Loss()
 
@@ -65,7 +66,7 @@ class BaseTrainer:
 
                 if global_step % gradient_accumalation_step == 0:
                     torch.nn.utils.clip_grad_norm(self.model.parameters(), gradient_clipping)
-                    optimizer.step()
+                    self.optimizer.step()
                     self.model.zero_grad()
 
             train_loss = train_epoch_loss.average()
@@ -95,7 +96,7 @@ class BaseTrainer:
 
                 dev_result = self.metric.average()
 
-                print('epoch - {0}, train_loss:{1:.2f}, dev_loss:{2:.2f}'.format(i+1,train_loss, dev_loss))
+                print('epoch - {0}, global_step:{1}, train_loss:{2:.2f}, dev_loss:{3:.2f}'.format(i+1, global_step, train_loss, dev_loss))
 
                 print(train_result, dev_result)
 
@@ -106,6 +107,6 @@ class BaseTrainer:
                     model_path = 'model_epoch_{0}_best_loss{1:.2f}.pth'.format(i+1,best_loss)
                     self.save_model(model_path)
 
-                print('epoch - {0}, train_loss:{1:.2f}'.format(i+1,train_loss))
+                print('epoch - {0},global_step:{1}, train_loss:{2:.2f}'.format(i+1, global_step, train_loss))
 
                 print(train_result)
