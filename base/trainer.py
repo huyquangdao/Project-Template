@@ -74,6 +74,9 @@ class BaseTrainer:
 
             train_result = self.metric.average()
 
+            for tag, item in train_result:
+                self.log.write(tag,item,i+1)
+
             if dev_loader is not None:
 
                 self.model.eval()
@@ -97,6 +100,8 @@ class BaseTrainer:
                     self.save_model(model_path)
 
                 dev_result = self.metric.average()
+                for tag, item in dev_result.items():
+                    self.log.write(tag,item,i+1)
 
                 print('epoch - {0}, global_step:{1}, train_loss:{2:.2f}, dev_loss:{3:.2f}'.format(i+1, global_step, train_loss, dev_loss))
 
