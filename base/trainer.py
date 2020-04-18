@@ -74,7 +74,7 @@ class BaseTrainer:
 
             train_result = self.metric.average()
 
-            for tag, item in train_result:
+            for tag, item in train_result.items():
                 self.log.write(tag,item,i+1)
 
             if dev_loader is not None:
