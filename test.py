@@ -13,7 +13,7 @@ def parse_arg():
     parser.add_argument('--image_size',help='image size',type=int, default=224)
     parser.add_argument('--n_classes',help='number of classes',type=int, default=2)
     parser.add_argument('--model',help='model_dir',type=str)
-    parser.add_argument('gpu',type=bool,default=1)
+    parser.add_argument('--gpu',type=bool,default=1)
 
     args = parser.parse_args()
 
