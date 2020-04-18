@@ -10,7 +10,7 @@ from metrics.classification_metric import ClassificationMetric
 from utils.utils import set_seed
 
 from dataset.DogCatDataset import CatDogDataset
-
+from utils.log import Writer
 from torchvision.transforms import Compose, ToPILImage, ToTensor, RandomCrop, Normalize, Resize, RandomHorizontalFlip
 
 
@@ -31,6 +31,7 @@ def parse_args():
     parser.add_argument('--n_classes',help='Number of classes', default=2)
     parser.add_argument('--pretrained',help='Number of classes', default=1, type=bool)
     parser.add_argument('--gpu',help='Number of classes', default=1, type= bool)
+    parser.add_argument('--log_dir',help='Log directory path', default='logs', type= str)
 
     args = parser.parse_args()
 
@@ -56,6 +57,7 @@ if __name__ == "__main__":
     criterion = nn.CrossEntropyLoss()
     metric = ClassificationMetric(n_classes=args.n_classes)
     train_dataset = CatDogDataset(file_path=args.train_dir,transform=train_transform)
+    writer = Writer(log_dir=args.log_dir)
 
     if args.gpu:
         DEVICE = torch.device('cuda:0')
@@ -66,8 +68,8 @@ if __name__ == "__main__":
                         optimizer= optimizer,
                         criterion= criterion,
                         metric=metric,
-                        log = None,
-                        device = DEVICE
+                        log = writer,
+                        device = DEVICE,
                         )
 
     trainer.train(train_dataset=train_dataset,

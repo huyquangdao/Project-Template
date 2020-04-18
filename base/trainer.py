@@ -63,6 +63,7 @@ class BaseTrainer:
                 step_loss.backward()
 
                 train_epoch_loss.write(step_loss.item())
+                self.log.write('training_loss',step_loss.item(),global_step)
 
                 if global_step % gradient_accumalation_step == 0:
                     torch.nn.utils.clip_grad_norm(self.model.parameters(), gradient_clipping)
@@ -86,6 +87,7 @@ class BaseTrainer:
                         step_loss, y_true, y_pred = self.iter(batch)
                         self.metric.write(y_true,y_pred)
                         dev_epoch_loss.write(step_loss.item())
+                        self.log.write('validation_loss',step_loss.item(),global_step)
 
                 dev_loss = dev_epoch_loss.average()
 
