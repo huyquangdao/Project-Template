@@ -13,6 +13,8 @@ from dataset.DogCatDataset import CatDogDataset
 from utils.log import Writer
 from torchvision.transforms import Compose, ToPILImage, ToTensor, RandomCrop, Normalize, Resize, RandomHorizontalFlip
 
+import torch.optim as optim
+
 
 def parse_args():
 
@@ -25,6 +27,7 @@ def parse_args():
     parser.add_argument('--seed',help='random seed',default=1234, type= int)
     parser.add_argument('--epoch', help='training epochs', default=5, type = int)
     parser.add_argument('--lr',help='learning rate',default=0.001)
+    parser.add_argument('--max_lr', help = 'maximum learning rate', default=0.01, type= float)
     parser.add_argument('--val_batch_size', help='Your validation batch size', default=64)
     parser.add_argument('--grad_clip',help='gradient clipping theshold',default=5, type = int)
     parser.add_argument('--grad_accum_step', help='gradient accumalation step', default=1)
@@ -32,6 +35,7 @@ def parse_args():
     parser.add_argument('--pretrained',help='Number of classes', default=1, type=bool)
     parser.add_argument('--gpu',help='Number of classes', default=1, type= bool)
     parser.add_argument('--log_dir',help='Log directory path', default='logs', type= str)
+    parser.add_argument('--lr_scheduler',help= 'learning rate scheduler', default = 'cyclic')
 
     args = parser.parse_args()
 
@@ -64,13 +68,17 @@ if __name__ == "__main__":
     else:
         DEVICE = torch.device('cpu')
 
+
+    lr_scheduler = optim.lr_scheduler.CyclicLR(optimizer = optimizer,base_lr=args.lr,max_lr=args.max_lr,step_size_up=1000)
+
     trainer = DogCatTrainer(model= model,
-                        optimizer= optimizer,
-                        criterion= criterion,
-                        metric=metric,
-                        log = writer,
-                        device = DEVICE,
-                        )
+                            optimizer= optimizer,
+                            criterion= criterion,
+                            metric=metric,
+                            log = writer,
+                            lr_scheduler = lr_scheduler,
+                            device = DEVICE,
+                            )
 
     trainer.train(train_dataset=train_dataset,
                   epochs=args.epoch,

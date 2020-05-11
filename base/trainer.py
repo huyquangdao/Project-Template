@@ -5,7 +5,7 @@ from utils.loss_meter import Loss
 
 class BaseTrainer:
 
-    def __init__(self, model, optimizer, criterion,  metric, device, log = None):
+    def __init__(self, model, optimizer, criterion,  metric, device, lr_scheduler = None, log = None):
 
         self.model = model
         self.optimizer = optimizer
@@ -13,6 +13,7 @@ class BaseTrainer:
         self.metric = metric
         self.log = log
         self.device = device
+        self.lr_scheduler = lr_scheduler
 
     def iter(self, batch):
         raise NotImplementedError('You must implement this method')
@@ -69,6 +70,9 @@ class BaseTrainer:
                     torch.nn.utils.clip_grad_norm(self.model.parameters(), gradient_clipping)
                     self.optimizer.step()
                     self.model.zero_grad()
+                    
+                if self.lr_scheduler is not None:
+                    self.lr_scheduler.step()
 
             train_loss = train_epoch_loss.average()
 
